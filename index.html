@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rifat Electronics – Mobile, Camera, TV</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=Fraunces:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef1f4;--card:#fff;--ink:#10222b;--mute:#5b6c75;--teal:#0e6b6b;--amber:#f2a900;--line:#d5dce1;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1a20;--card:#17262e;--ink:#e8eef1;--mute:#93a5ae;--teal:#3fc1b8;--line:#2a3d47}}
+:root[data-theme="dark"]{--bg:#0f1a20;--card:#17262e;--ink:#e8eef1;--mute:#93a5ae;--teal:#3fc1b8;--line:#2a3d47}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Archivo',system-ui,sans-serif;line-height:1.55}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;margin:0}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;justify-content:space-between;align-items:center;padding:12px 5vw;background:var(--bg);border-bottom:1px solid var(--line)}
+.logo{font-family:'Fraunces',serif;font-weight:800;font-size:1.3rem;display:flex;align-items:center;gap:8px}
+.logo i{width:22px;height:22px;border-radius:50%;border:5px solid var(--teal);background:var(--amber);display:inline-block}
+nav a{margin-left:18px;color:var(--mute);text-decoration:none;font-weight:600}
+nav a:hover{color:var(--teal)}
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:30px;align-items:center;padding:56px 5vw}
+.hero h1{font-size:clamp(2.2rem,5vw,4rem);line-height:1.05;font-weight:800}
+.hero p{color:var(--mute);max-width:46ch;font-size:1.05rem}
+.btn{display:inline-block;background:var(--teal);color:#fff;border:0;padding:12px 22px;border-radius:999px;font:600 1rem 'Archivo';cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--ink)}
+.stage{position:relative;height:340px;display:grid;place-items:center}
+.stage .ring{position:absolute;width:300px;height:300px;border-radius:50%;border:2px dashed var(--teal);opacity:.4;animation:spin 24s linear infinite}
+.stage svg{width:min(360px,80%);animation:float 4s ease-in-out infinite;filter:drop-shadow(0 22px 18px rgba(0,0,0,.25))}
+@keyframes float{50%{transform:translateY(-16px) rotate(-2deg)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.flash{position:absolute;top:60px;right:70px;width:14px;height:14px;border-radius:50%;background:var(--amber);animation:fl 3s infinite}
+@keyframes fl{0%,90%,100%{transform:scale(0);opacity:0}93%{transform:scale(9);opacity:.9}}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;padding:0 5vw 10px}
+.tabs button{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 16px;border-radius:999px;font:600 .9rem 'Archivo';cursor:pointer}
+.tabs button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+h2.sec{padding:20px 5vw 8px;font-size:2rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;padding:10px 5vw 50px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;transition:transform .25s,box-shadow .25s}
+.card:hover{transform:translateY(-6px) rotate(-.4deg);box-shadow:0 14px 28px rgba(0,0,0,.14)}
+.card .pic{height:170px;display:grid;place-items:center;background:linear-gradient(135deg,var(--c1),var(--c2))}
+.card .pic svg{width:72%;transition:transform .4s}
+.card:hover .pic svg{transform:scale(1.1) rotate(4deg)}
+.card .body{padding:14px 16px 16px}
+.card h3{font-size:1.15rem}
+.tag{color:var(--mute);font-size:.85rem}
+.price{display:flex;justify-content:space-between;align-items:center;margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
+.price b{font-size:1.25rem;color:var(--teal)}
+.price small{color:var(--mute)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:20;padding:16px}
+.modal.open{display:grid}
+.box{background:var(--card);border-radius:18px;max-width:760px;width:100%;max-height:90%;overflow:auto;display:grid;grid-template-columns:1fr 1.2fr;animation:pop .3s}
+@keyframes pop{from{transform:scale(.9);opacity:0}}
+.box .pic{display:grid;place-items:center;padding:20px;background:linear-gradient(135deg,var(--c1),var(--c2))}
+.box .pic svg{width:100%;animation:float 4s ease-in-out infinite}
+.info{padding:22px}
+.info table{width:100%;border-collapse:collapse;margin:12px 0}
+.info td{padding:6px 0;border-bottom:1px solid var(--line);font-size:.92rem;vertical-align:top}
+.info td:first-child{color:var(--mute);width:38%}
+.x{float:right;background:none;border:0;font-size:1.6rem;color:var(--ink);cursor:pointer}
+.about,.contact{padding:30px 5vw;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.about div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+footer{padding:28px 5vw;border-top:1px solid var(--line);color:var(--mute);text-align:center}
+.wa{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:15;background:#25d366;color:#fff;text-decoration:none;font-weight:700;padding:12px 18px;border-radius:999px;box-shadow:0 8px 20px rgba(0,0,0,.3);display:flex;gap:8px;align-items:center;animation:pulse 2.5s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 12px rgba(37,211,102,.0),0 8px 20px rgba(0,0,0,.3);transform:scale(1.05)}}
+.wa svg{width:22px;height:22px;fill:#fff}
+.ord{display:none;margin-top:12px;gap:8px}.ord.show{display:grid}
+.ord input,.ord textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.ord .btn{background:#25d366;text-align:center}
+.card .pic img,.box .pic img{width:100%;height:100%;object-fit:cover;display:block}
+.card .pic{overflow:hidden}.card .pic:has(img){padding:0}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;padding:0 5vw 30px}.cats a{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;text-decoration:none;color:var(--ink);display:grid;transition:transform .25s}.cats a:hover{transform:translateY(-5px)}.cats b{font:800 1.5rem 'Fraunces',serif}.cats span{color:var(--mute)}
+[hidden]{display:none!important}
+.hero{background:radial-gradient(circle at 80% 20%,rgba(242,169,0,.18),transparent 50%),radial-gradient(circle at 10% 90%,rgba(14,107,107,.18),transparent 50%)}
+.hero h1{animation:rise .8s both}.hero p{animation:rise .8s .15s both}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}}
+.wab{background:#25d366;margin-left:8px}.wab:hover{background:#1da851}
+.stage .r2{width:220px;height:220px;animation-direction:reverse;animation-duration:16s;border-color:var(--amber)}
+.trio{position:relative;width:100%;height:100%}
+.trio div{position:absolute;filter:drop-shadow(0 18px 14px rgba(0,0,0,.28))}.trio svg{width:100%;animation:none;filter:none}
+.trio .t1{width:58%;left:0;top:22px;animation:float 5s ease-in-out infinite}
+.trio .t2{width:30%;right:12%;top:0;animation:float 4s .6s ease-in-out infinite}
+.trio .t3{width:48%;right:0;bottom:6px;animation:float 4.5s 1.2s ease-in-out infinite}
+.marq{overflow:hidden;background:var(--ink);color:var(--bg);padding:10px 0;margin:10px 0 30px}
+.mt{display:flex;gap:46px;width:max-content;animation:mq 28s linear infinite;font:800 1.1rem 'Fraunces',serif;white-space:nowrap}
+@keyframes mq{to{transform:translateX(-50%)}}
+.cat{display:grid!important;grid-template-columns:120px 1fr;gap:14px;align-items:center;position:relative;overflow:hidden}
+.cat .cp svg{width:100%;transition:transform .4s}.cat:hover .cp svg{transform:scale(1.2) rotate(-6deg)}
+.cat:hover{transform:translateY(-8px) scale(1.02)!important;box-shadow:0 18px 32px rgba(0,0,0,.18)}
+.cat b{font:800 1.7rem 'Fraunces',serif;display:block}.cat em{font-style:normal;color:var(--teal);font-weight:700;display:block;margin-top:8px;transition:letter-spacing .3s}
+.cat:hover em{letter-spacing:.06em}
+.c1{background:linear-gradient(135deg,var(--card),#d6e2f7)!important}.c2{background:linear-gradient(135deg,var(--card),#f7e6a8)!important}.c3{background:linear-gradient(135deg,var(--card),#d3ecf7)!important}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .c1,:root:not([data-theme="light"]) .c2,:root:not([data-theme="light"]) .c3{background:var(--card)!important}}
+.cats{grid-template-columns:repeat(auto-fit,minmax(290px,1fr))!important}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;padding:0 5vw 20px;text-align:center}
+.stats div{padding:18px;border-radius:14px;background:var(--card);border:1px solid var(--line)}
+.stats b{font:800 2.4rem 'Fraunces',serif;color:var(--teal)}.stats span{display:block;color:var(--mute)}
+.page:not([hidden]){animation:enter .45s both}@keyframes enter{from{opacity:0;transform:translateX(30px)}}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;padding:0 5vw 16px}
+.cgrid.two{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.ci{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;display:grid;gap:8px;align-content:start;transition:transform .25s}.ci:hover{transform:translateY(-5px)}
+.ci h3{font-size:1.15rem}.ci p{margin:0;color:var(--mute)}.ci .btn{text-align:center;margin:0}
+.ic{width:46px;height:46px;border-radius:50%;background:var(--amber);display:grid;place-items:center;font-size:1.4rem}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#25d366;margin-right:8px;animation:pulse 1.8s infinite}
+.ul{margin:0;padding-left:18px;color:var(--mute)}.ul li{margin:4px 0}
+.msg input,.msg textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+@media(max-width:600px){.cat{grid-template-columns:90px 1fr}.wab{margin:8px 0 0}}
+.sky{display:grid;grid-template-columns:1.1fr 1fr;gap:20px;align-items:center;padding:60px 5vw 70px;background:radial-gradient(circle at 75% 30%,#12586a 0,transparent 55%),radial-gradient(circle at 10% 100%,#5b2a86 0,transparent 50%),#07131a;color:#fff;position:relative;overflow:hidden;perspective:900px}
+.sky h1{font-size:clamp(2.4rem,5.5vw,4.4rem);line-height:1.05;font-weight:800;animation:rise .8s both}
+.sky p{color:#b8c9d1;max-width:48ch;font-size:1.05rem;animation:rise .8s .15s both}
+.gr{background:linear-gradient(90deg,#f2a900,#ff6b9a,#6bf0d6);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200%;animation:sh 5s linear infinite}
+@keyframes sh{to{background-position:200%}}
+.pill{display:inline-flex;align-items:center;border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px;font-weight:600;font-size:.85rem;margin-bottom:16px;background:rgba(255,255,255,.06)}
+.btn.gold{background:var(--amber);color:#111}.btn.gold:hover{background:#fff}
+.btn.ghost{background:transparent;border:1.5px solid #25d366;color:#fff;margin-left:10px}.btn.ghost:hover{background:#25d366}
+.grain{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);background-size:22px 22px;pointer-events:none}
+.show{position:relative;height:380px;transition:transform .2s;transform-style:preserve-3d}
+.glow{position:absolute;inset:8% 8%;border-radius:50%;background:conic-gradient(from 0deg,#f2a900,#ff6b9a,#6bf0d6,#f2a900);filter:blur(60px);opacity:.35;animation:spin 14s linear infinite}
+.sls{position:absolute;inset:0}.sl{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transform:scale(.6) rotate(-14deg) translateY(30px);transition:all .9s cubic-bezier(.2,.9,.3,1.2)}
+.sl.on{opacity:1;transform:none}.sl svg{width:min(380px,92%);filter:drop-shadow(0 30px 24px rgba(0,0,0,.55));animation:float 4s ease-in-out infinite}
+.lab{position:absolute;bottom:-6px;left:0;right:0;display:flex;justify-content:center;gap:10px}
+.lab a{color:#9fb4bd;text-decoration:none;font-weight:700;padding:6px 14px;border-radius:999px;border:1px solid transparent;transition:.3s}.lab a.on{color:#111;background:#fff}
+.orb{position:absolute;z-index:2;background:rgba(255,255,255,.1);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.25);padding:7px 14px;border-radius:999px;font-size:.8rem;font-weight:700;animation:float 5s ease-in-out infinite}
+.o1{top:6%;left:0}.o2{top:22%;right:0;animation-delay:1s}.o3{bottom:16%;left:4%;animation-delay:2s}
+.ctr{text-align:center}
+.panels{display:flex;gap:14px;height:380px;padding:0 5vw 30px}
+.pn{flex:1;position:relative;overflow:hidden;border-radius:22px;padding:22px;text-decoration:none;color:#111;display:flex;flex-direction:column;justify-content:flex-end;transition:flex .6s cubic-bezier(.2,.8,.2,1),transform .3s;min-width:0}
+.pn:hover{flex:2.3}.p1{background:linear-gradient(160deg,#d6e2f7,#8fb0e6)}.p2{background:linear-gradient(160deg,#f7e6a8,#efb64f)}.p3{background:linear-gradient(160deg,#d3f0ec,#6cc3c0)}
+.pp{position:absolute;top:18px;left:50%;width:78%;transform:translateX(-50%);transition:transform .6s}.pp svg{width:100%;animation:float 5s ease-in-out infinite}
+.pn:hover .pp{transform:translateX(-50%) scale(1.15) rotate(-5deg)}
+.pn h3{font-size:2rem;position:relative}.pn p{margin:2px 0;position:relative}.pn em{font-style:normal;font-weight:800;position:relative;transition:padding .3s}.pn:hover em{padding-left:12px}
+@media(max-width:800px){.sky{grid-template-columns:1fr}.show{height:300px}.panels{flex-direction:column;height:auto}.pn{min-height:230px;flex:none}.pn:hover{flex:none}.pp{width:50%}}
+header{flex-wrap:wrap;gap:8px}.hb{display:flex;gap:6px}.tbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 12px;font:600 .85rem 'Archivo';cursor:pointer}
+.tools{display:flex;gap:10px;flex-wrap:wrap;padding:0 5vw 12px}.tools input,.tools select{padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font:inherit}.tools input{flex:1;min-width:180px}
+.card{position:relative}.tg{position:absolute;top:10px;left:10px;z-index:2;background:#e5484d;color:#fff;font-size:.72rem;font-weight:800;padding:3px 10px;border-radius:999px}.tg.New{background:#0e8a5f}.tg.Best{background:#7c3aed}
+.stk{position:absolute;top:10px;right:10px;z-index:2;font-size:.72rem;font-weight:700;background:rgba(255,255,255,.9);color:#0e6b3a;padding:3px 10px;border-radius:999px}
+.price s{color:var(--mute);font-size:.82rem;margin-right:6px}
+.acts{display:flex;gap:8px;align-items:center;margin-top:10px;font-size:.82rem}.acts label{display:flex;gap:4px;align-items:center;color:var(--mute);cursor:pointer}.acts .add{margin-left:auto;border:1px solid var(--teal);background:none;color:var(--teal);border-radius:999px;padding:5px 12px;font:700 .8rem 'Archivo';cursor:pointer}.acts .add:hover{background:var(--teal);color:#fff}
+.ghost2{background:none!important;border:1.5px solid var(--teal);color:var(--teal)!important;margin-left:6px}
+.cartb{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:15;background:var(--ink);color:var(--bg);border:0;border-radius:999px;padding:12px 18px;font:700 1rem 'Archivo';cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.3)}
+.cmpbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:15;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:8px 12px 8px 18px;display:none;gap:8px;align-items:center;box-shadow:0 8px 20px rgba(0,0,0,.25)}.cmpbar.on{display:flex}
+.box.one{grid-template-columns:1fr;max-width:700px}.ct{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}.ct input{width:60px;padding:6px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}.ct button{background:none;border:0;color:#e5484d;font-size:1.2rem;cursor:pointer}
+.cmpt{width:100%;border-collapse:collapse;font-size:.85rem}.cmpt td,.cmpt th{padding:6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.p4{background:linear-gradient(160deg,#f5d5e3,#e08fb0)}
+.xch{margin:10px 5vw 30px;padding:24px;border-radius:18px;background:linear-gradient(120deg,var(--teal),#1b4d8f);color:#fff;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}.xch p{margin:4px 0 0;opacity:.9}.xch .btn{margin:0}
+.faq{padding:0 5vw 20px;display:grid;gap:8px}.faq details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px}.faq summary{font-weight:700;cursor:pointer}.faq p{color:var(--mute);margin:8px 0 0}
+.lead{padding:0 5vw 16px;max-width:900px;color:var(--mute);font-size:1.05rem}.lead h3{color:var(--ink)}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;padding:0 5vw 20px}.pl{background:linear-gradient(135deg,var(--teal),#1b4d8f);color:#fff;border-radius:16px;padding:20px;display:grid;transition:transform .25s}.pl:hover{transform:translateY(-5px)}.pl b{font:800 1.5rem 'Fraunces',serif}.pl span{opacity:.9}
+.calc{margin:0 5vw 20px;padding:20px;border-radius:16px;background:var(--card);border:1px solid var(--line);display:grid;gap:12px}.calc input{padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit;width:100%;max-width:260px;display:block;margin-top:6px}
+.eo{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}.eo div,.emi div{background:var(--bg);border-radius:10px;padding:10px 12px;border:1px solid var(--line)}
+.emi{display:grid;gap:6px;margin:12px 0;font-size:.88rem}.emi small{color:var(--mute)}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;padding:0 5vw 20px}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+@media(max-width:760px){.hero{grid-template-columns:1fr}.box{grid-template-columns:1fr}nav a{margin-left:10px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="logo"><i></i>Rifat Electronics</div><nav><a href="#/home" data-bn="হোম">Home</a><a href="#/mobiles" data-bn="মোবাইল">Mobiles</a><a href="#/cameras" data-bn="ক্যামেরা">Cameras</a><a href="#/tvs" data-bn="টিভি">TVs</a><a href="#/acc" data-bn="এক্সেসরিজ">Accessories</a><a href="#/emi">EMI</a><a href="#/warranty">Warranty</a><a href="#contact" data-bn="যোগাযোগ">Contact</a></nav><div class="hb"><button class="tbtn" id="thm" aria-label="Toggle theme">&#127763;</button><button class="tbtn" id="lng">বাংলা</button></div></header>
+
+<main id="p-home" class="page">
+<section class="sky" id="sky"><div class="grain"></div>
+<div class="htxt"><span class="pill"><i class="dot"></i>Open 24/7 &middot; Cantonment, Dhaka</span>
+<h1>Tech you will <span class="gr">love</span>.<br>Prices you can <span class="gr">trust</span>.</h1>
+<p>Phones, cameras and TVs from the world's top brands. Original products, official warranty, fast delivery.</p>
+<p><a class="btn gold" href="#/mobiles" data-bn="কেনাকাটা শুরু করুন">Start shopping</a><a class="btn ghost" id="heroWa" target="_blank" rel="noopener" data-bn="হোয়াটসঅ্যাপে চ্যাট করুন">Chat on WhatsApp</a></p></div>
+<div class="show" id="show"><div class="orb o1">100% Original</div><div class="orb o2">Official Warranty</div><div class="orb o3">Fast Delivery</div><div class="glow"></div><div class="sls" id="sls"></div><div class="lab" id="lab"></div></div></section>
+<div class="marq"><div class="mt" id="mt"></div></div>
+<h2 class="sec ctr" data-bn="আপনার পছন্দের ক্যাটাগরি">Pick your world</h2>
+<div class="panels">
+<a href="#/mobiles" class="pn p1"><div class="pp" id="pp1"></div><h3>Mobiles</h3><p>48 smartphones from budget to flagship</p><em>Explore &rarr;</em></a>
+<a href="#/cameras" class="pn p2"><div class="pp" id="pp2"></div><h3>Cameras</h3><p>48 DSLR, mirrorless, compact and action cameras</p><em>Explore &rarr;</em></a>
+<a href="#/tvs" class="pn p3"><div class="pp" id="pp3"></div><h3>TVs</h3><p>48 smart TVs, 32 to 85 inch, 4K, QLED and OLED</p><em>Explore &rarr;</em></a>
+<a href="#/acc" class="pn p4"><div class="pp" id="pp4"></div><h3>Accessories</h3><p>16 chargers, earbuds, power banks and more</p><em>Explore &rarr;</em></a>
+</div>
+<h2 class="sec ctr" data-bn="হট ডিল">Hot deals</h2><div class="grid" id="deals"></div>
+<div class="xch"><div><h3>Exchange your old phone</h3><p>Trade in your old phone for a discount on a new one. Send us the model and condition on WhatsApp for a quote.</p></div><a class="btn wab" id="xWa" target="_blank" rel="noopener">Get exchange quote</a></div>
+<div class="stats"><div><b data-n="160">0</b><span>Products in stock</span></div><div><b data-n="24">0</b><span>Hours open daily</span></div><div><b data-n="7">0</b><span>Days a week</span></div><div><b data-n="100">0</b><span>% original products</span></div></div>
+</main>
+<main id="p-mobiles" class="page" hidden><h2 class="sec">Mobiles</h2><div class="tabs" id="tabs-mobiles"></div><div class="grid" id="grid-mobiles"></div></main>
+<main id="p-cameras" class="page" hidden><h2 class="sec">Cameras</h2><div class="tabs" id="tabs-cameras"></div><div class="grid" id="grid-cameras"></div></main>
+<main id="p-acc" class="page" hidden><h2 class="sec">Accessories</h2><div class="tabs" id="tabs-acc"></div><div class="grid" id="grid-acc"></div></main>
+<main id="p-emi" class="page" hidden><h2 class="sec">EMI and installment plans</h2>
+<p class="lead">Buy now and pay in easy monthly installments. Available on any product priced ৳15,000 or more. Pay a 20% down payment in our shop, then split the rest.</p>
+<div class="plans"><div class="pl"><b>3 months</b><span>0% interest</span></div><div class="pl"><b>6 months</b><span>0% interest</span></div><div class="pl"><b>12 months</b><span>5% service charge</span></div></div>
+<div class="calc"><h3>EMI calculator</h3><label>Product price (৳)<input id="ep" type="number" min="15000" value="60000"></label><div id="eo"></div>
+<p class="tag">Example plans for guidance. Final EMI terms are confirmed in our shop with your NID and a valid phone number.</p></div>
+<div class="lead"><h3>How EMI works</h3><ol class="ul"><li>Choose your product and an EMI plan.</li><li>Visit the shop with your NID and phone number.</li><li>Pay the 20% down payment and take your product home.</li><li>Pay the monthly installment on or before the due date.</li></ol></div></main>
+<main id="p-warranty" class="page" hidden><h2 class="sec">Warranty and return policy</h2>
+<p class="lead">Every product we sell is original and comes with warranty. Keep your invoice and the box until the warranty period ends.</p>
+<div class="plans"><div class="pl"><b>Mobiles</b><span>1 year official warranty</span></div><div class="pl"><b>Cameras</b><span>1 to 2 years, see product page</span></div><div class="pl"><b>TVs</b><span>1 to 2 years, panel warranty included</span></div><div class="pl"><b>Accessories</b><span>6 months to lifetime, see product page</span></div></div>
+<div class="wgrid"><div class="ci"><h3>What is covered</h3><ul class="ul"><li>Manufacturing defects in hardware</li><li>Software and firmware faults</li><li>Battery and charger faults within warranty</li><li>Display or panel defects not caused by damage</li></ul></div>
+<div class="ci"><h3>What is not covered</h3><ul class="ul"><li>Physical damage, cracked screens and bent frames</li><li>Water or liquid damage (unless the product is rated waterproof)</li><li>Burns from wrong voltage or power surge</li><li>Opened, repaired or modified by an unauthorized person</li><li>Missing or tampered serial number or IMEI</li></ul></div>
+<div class="ci"><h3>Replacement policy</h3><ul class="ul"><li>If a product is dead on arrival, report within 7 days for replacement</li><li>Product must be in original box with all accessories and invoice</li><li>Replacement is subject to stock and manufacturer inspection</li></ul></div>
+<div class="ci"><h3>How to claim warranty</h3><ol class="ul"><li>Message us on WhatsApp with your invoice and a short video of the issue.</li><li>Bring the product to our shop at ECB Chattar, Cantonment, Dhaka.</li><li>We inspect it and send it to the service center if needed.</li><li>We update you until it is repaired or replaced.</li></ol></div></div>
+<p class="tag" style="padding:0 5vw 30px">Warranty terms follow the brand's official policy. Our policy may be updated at any time.</p></main>
+<main id="p-tvs" class="page" hidden><h2 class="sec">TVs</h2><div class="tabs" id="tabs-tvs"></div><div class="grid" id="grid-tvs"></div></main>
+
+<h2 class="sec" id="why">Why Rifat Electronics</h2>
+<div class="about">
+<div><h3>100% Original</h3><p class="tag">Sourced from authorized suppliers. Every product is box-sealed.</p></div>
+<div><h3>Warranty</h3><p class="tag">One to two years of official warranty.</p></div>
+<div><h3>Try before you buy</h3><p class="tag">Visit the shop and test it in your hands.</p></div>
+<div><h3>Delivery</h3><p class="tag">24-hour delivery in Dhaka, courier service nationwide.</p></div>
+</div>
+
+<h2 class="sec" data-bn="সাধারণ প্রশ্ন">Frequently asked questions</h2>
+<div class="faq"><details><summary>Are your products original?</summary><p>Yes. We sell original, box-sealed products with official warranty.</p></details>
+<details><summary>How fast is delivery?</summary><p>Delivery in Dhaka takes about 24 hours. We also ship nationwide by courier.</p></details>
+<details><summary>Can I pay cash on delivery?</summary><p>Yes, cash on delivery is available. Message us on WhatsApp to confirm your order.</p></details>
+<details><summary>How does the warranty work?</summary><p>Each product shows its warranty period in the details. Bring your invoice to our shop for warranty support. See the Warranty page for full terms.</p></details>
+<details><summary>Do you offer EMI?</summary><p>Yes. EMI is available on products of ৳15,000 or more, with a 20% down payment. See the EMI page for plans and a calculator.</p></details>
+<details><summary>Can I see the product before buying?</summary><p>Yes. Visit the shop at ECB Chattar, Cantonment, Dhaka, any time, we are open 24 hours.</p></details>
+<details><summary>Can I return or replace a product?</summary><p>Return and replacement depend on the product and its warranty terms. Contact us on WhatsApp with your invoice.</p></details></div>
+<h2 class="sec" id="contact" data-bn="যোগাযোগ করুন">Contact us</h2>
+<div class="cgrid">
+<div class="ci"><div class="ic">&#9742;</div><h3>Call us</h3><p>01401317100</p><a class="btn" href="tel:01401317100">Call now</a></div>
+<div class="ci"><div class="ic">&#128172;</div><h3>WhatsApp</h3><p>Fast replies on prices and stock.</p><a class="btn wab" id="cWa" target="_blank" rel="noopener">Start chat</a></div>
+<div class="ci"><div class="ic">&#128205;</div><h3>Visit our shop</h3><p>ECB Chattar, Cantonment, Dhaka</p><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=ECB+Chattar+Cantonment+Dhaka">Get directions</a></div>
+<div class="ci"><div class="ic">&#128339;</div><h3>Opening hours</h3><p><span class="dot"></span>Open now: every day, 24 hours</p><p class="tag">Saturday to Friday, no holidays</p></div>
+</div>
+<div class="cgrid two">
+<div class="ci"><h3>What you get</h3><ul class="ul"><li>Free product demo in the shop</li><li>Official warranty on every product</li><li>Cash on delivery available</li><li>Home delivery in Dhaka within 24 hours</li><li>Courier delivery across Bangladesh</li></ul></div>
+<form class="ci msg" id="msg"><h3>Send us a message</h3><input id="m1" required placeholder="Your name"><textarea id="m2" required rows="3" placeholder="Which product are you looking for?"></textarea><button class="btn wab" type="submit">Send on WhatsApp</button></form>
+</div>
+<footer>© 2026 Rifat Electronics. Prices are in BDT and may change.</footer>
+
+<a class="wa" id="waFloat" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.300 1.200-1.800 1.200-.5.1-1 .2-3.300-.7-2.800-1.100-4.600-4-4.700-4.200-.1-.2-1.100-1.500-1.100-2.800s.7-2 1-2.300c.2-.3.500-.3.700-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.200.1.300 0 .5l-.4.600c-.1.200-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.100 1 2.100 1.300 2.400 1.500.3.100.5.100.6-.1l.9-1.100c.2-.3.400-.2.600-.1l1.900.9c.3.100.5.200.5.300.100.200.100.700-.1 1.300z"/></svg>WhatsApp</a>
+<button class="cartb" id="cartb">&#128722; Cart <span id="cn">0</span></button>
+<div class="cmpbar" id="cmpbar"><span id="cmpn"></span><button class="btn" id="cmpgo">Compare</button><button class="btn ghost2" id="cmpx">Clear</button></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true"><div class="box" id="box"></div></div>
+
+<script>
+const WA='8801401317100';
+const cams=[
+{n:"Canon EOS 90D",t:"DSLR",p:112000,c:["#cfe3ea","#9cc3cf"],k:"dslr",d:"Fast, sharp DSLR for sports and wildlife.",s:{Sensor:"32.5MP APS-C CMOS",Video:"4K 30p, Full HD 120p",Burst:"10 fps",Autofocus:"45-point cross-type",Screen:"3.0\" vari-angle touch",Battery:"1300 shots (LP-E6N)",Lens:"EF/EF-S mount, kit 18-135mm",Weight:"701 g",Warranty:"1 year"}},
+{n:"Nikon D7500",t:"DSLR",p:98000,c:["#f3dfc4","#e2b97e"],k:"dslr",d:"Rugged, weather-sealed body with excellent low-light output.",s:{Sensor:"20.9MP APS-C CMOS",Video:"4K 30p",Burst:"8 fps",Autofocus:"51-point",Screen:"3.2\" tilting touch",Battery:"950 shots",Lens:"F mount, kit 18-140mm",Weight:"720 g",Warranty:"1 year"}},
+{n:"Sony Alpha a6400",t:"Mirrorless",p:105000,c:["#d9d4ee","#a99fd8"],k:"mirror",d:"Pocket-size mirrorless with real-time eye autofocus.",s:{Sensor:"24.2MP APS-C CMOS",Video:"4K 30p, S-Log",Burst:"11 fps",Autofocus:"425-point, Eye AF",Screen:"3.0\" 180° flip touch",Battery:"410 shots",Lens:"E mount, kit 16-50mm",Weight:"403 g",Warranty:"2 years"}},
+{n:"Fujifilm X-T30 II",t:"Mirrorless",p:128000,c:["#f2d3d0","#df9a94"],k:"mirror",d:"Retro design with famous Fuji film simulations.",s:{Sensor:"26.1MP X-Trans CMOS 4",Video:"4K 30p",Burst:"20 fps (electronic)",Autofocus:"425-point hybrid",Screen:"3.0\" tilting touch",Battery:"380 shots",Lens:"X mount, kit 15-45mm",Weight:"378 g",Warranty:"1 year"}},
+{n:"Canon PowerShot G7X III",t:"Compact",p:92000,c:["#d8ead7","#9ccb98"],k:"compact",d:"Vlogger favourite: 1-inch sensor, live-stream ready.",s:{Sensor:"20.1MP 1-inch CMOS",Video:"4K 30p, YouTube live",Burst:"30 fps",Zoom:"4.2x optical (24-100mm)",Screen:"3.0\" flip-up touch",Battery:"235 shots",Mic:"External mic input",Weight:"304 g",Warranty:"1 year"}},
+{n:"GoPro HERO12 Black",t:"Action",p:58000,c:["#cdeaf5","#6fb8d6"],k:"action",d:"Waterproof, shake-free action camera for adventure.",s:{Sensor:"27MP",Video:"5.3K 60p, 4K 120p",Stabilization:"HyperSmooth 6.0",Waterproof:"10 m without case",Screen:"Front + rear touch",Battery:"1720 mAh Enduro",Mount:"Built-in folding fingers",Weight:"154 g",Warranty:"1 year"}},
+{n:"Fujifilm Instax Mini 12",t:"Instant",p:13500,c:["#f7e6a8","#efc24f"],k:"instant",d:"Print your photo in seconds. Perfect gift.",s:{Film:"Instax Mini (86x54 mm)",Lens:"60 mm f/12.7",Flash:"Auto",Modes:"Selfie close-up mode",Power:"2 x AA battery",Develop:"~90 seconds",Weight:"306 g",Colors:"Green, Pink, Blue, White",Warranty:"6 months"}},
+{n:"Sony FX30 Cinema",t:"Video",p:285000,c:["#cfd3d9","#8a93a0"],k:"video",d:"Professional cinema camera for films and ads.",s:{Sensor:"26MP APS-C Super 35",Video:"4K 120p, 10-bit 4:2:2",Dynamic:"14+ stops, S-Cinetone",Audio:"XLR handle, 4-ch",Screen:"3.0\" vari-angle touch",Battery:"NP-FZ100",Mount:"E mount",Weight:"646 g",Warranty:"2 years"}},
+{n:"Canon EOS R50",t:"Mirrorless",p:89000,c:["#e0e6f7","#9fb2e8"],k:"mirror",d:"Beginner friendly, light and easy to carry.",s:{Sensor:"24.2MP APS-C CMOS",Video:"4K 30p",Burst:"12 fps",Autofocus:"Dual Pixel II, subject tracking",Screen:"3.0\" vari-angle touch",Battery:"430 shots",Lens:"RF-S mount, kit 18-45mm",Weight:"375 g",Warranty:"1 year"}}
+];
+
+const PAL={dslr:[["#cfe3ea","#9cc3cf"],["#f3dfc4","#e2b97e"]],mirror:[["#d9d4ee","#a99fd8"],["#f2d3d0","#df9a94"],["#e0e6f7","#9fb2e8"]],compact:[["#d8ead7","#9ccb98"],["#e4efd0","#b4cf7f"]],action:[["#cdeaf5","#6fb8d6"],["#d6f0e6","#7fcdb0"]],instant:[["#f7e6a8","#efc24f"],["#f9d9e4","#ee9fba"]],video:[["#cfd3d9","#8a93a0"]]};
+let _i=0;
+const X=(n,t,p,k,d,sp,w)=>{const a=PAL[k];cams.push({n,t,p,k,d,c:a[_i++%a.length],s:Object.fromEntries(sp.split(";").map(x=>x.split(":")).concat([["Warranty",w||"1 year"]]))})};
+X("Canon EOS 850D","DSLR",85000,"dslr","Easy DSLR for learners with a sharp 24MP sensor.","Sensor:24.1MP APS-C;Video:4K 24p, FHD 60p;Burst:7 fps;Autofocus:45-point;Screen:3.0\" vari-angle touch;Battery:800 shots;Weight:515 g");
+X("Nikon D5600","DSLR",72000,"dslr","Light DSLR with SnapBridge Wi-Fi sharing.","Sensor:24.2MP APS-C;Video:Full HD 60p;Burst:5 fps;Autofocus:39-point;Screen:3.2\" vari-angle touch;Battery:970 shots;Weight:465 g");
+X("Canon EOS 5D Mark IV","DSLR",265000,"dslr","Pro full-frame workhorse for weddings and studio.","Sensor:30.4MP Full-frame;Video:4K 30p;Burst:7 fps;Autofocus:61-point;Screen:3.2\" touch;Battery:900 shots;Weight:890 g","2 years");
+X("Nikon D780","DSLR",215000,"dslr","Full-frame DSLR with mirrorless-grade live view.","Sensor:24.5MP Full-frame BSI;Video:4K 30p;Burst:12 fps (live view);Autofocus:51-point + Eye AF;Screen:3.2\" tilting touch;Battery:2260 shots;Weight:840 g","2 years");
+X("Sony Alpha a7 IV","Mirrorless",295000,"mirror","Hybrid full-frame for photo and video creators.","Sensor:33MP Full-frame;Video:4K 60p 10-bit;Burst:10 fps;Autofocus:759-point Real-time Tracking;Screen:3.0\" vari-angle touch;Stabilization:5-axis IBIS;Weight:658 g","2 years");
+X("Sony ZV-E10","Mirrorless",82000,"mirror","Vlogging mirrorless with product showcase mode.","Sensor:24.2MP APS-C;Video:4K 30p;Autofocus:425-point, Eye AF;Screen:3.0\" vari-angle touch;Audio:Mic jack + windscreen;Battery:440 shots;Weight:343 g");
+X("Canon EOS R6 Mark II","Mirrorless",335000,"mirror","Fast full-frame for sports and low light.","Sensor:24.2MP Full-frame;Video:4K 60p;Burst:40 fps (electronic);Autofocus:Dual Pixel II, subject detection;Stabilization:8-stop IBIS;Screen:3.0\" vari-angle touch;Weight:670 g","2 years");
+X("Nikon Z50","Mirrorless",88000,"mirror","Compact Z-mount camera with clear electronic viewfinder.","Sensor:20.9MP APS-C;Video:4K 30p;Burst:11 fps;Autofocus:209-point hybrid;Screen:3.2\" tilting touch;Battery:320 shots;Weight:450 g");
+X("Fujifilm X-S20","Mirrorless",138000,"mirror","Strong battery and film simulations for creators.","Sensor:26.1MP X-Trans CMOS 4;Video:6.2K 30p;Burst:20 fps;Autofocus:AI subject detection;Stabilization:IBIS 7 stops;Screen:3.0\" vari-angle touch;Weight:491 g");
+X("Panasonic Lumix G85","Mirrorless",78000,"mirror","Weather-sealed Micro Four Thirds with 5-axis stabilization.","Sensor:16MP Micro 4/3;Video:4K 30p;Burst:9 fps;Autofocus:49-point DFD;Screen:3.0\" vari-angle touch;Battery:330 shots;Weight:505 g");
+X("Sony ZV-1","Compact",85000,"compact","Pocket vlog camera with soft background blur.","Sensor:20.1MP 1-inch;Video:4K 30p;Zoom:2.7x (24-70mm);Autofocus:Eye AF;Screen:3.0\" flip-out touch;Audio:Directional 3-capsule mic;Weight:294 g");
+X("Sony RX100 VII","Compact",145000,"compact","Pro-level 1-inch compact that fits in a pocket.","Sensor:20.1MP 1-inch stacked;Video:4K 30p;Burst:20 fps;Zoom:8x (24-200mm);Autofocus:357-point;Viewfinder:Pop-up EVF;Weight:302 g");
+X("Nikon Coolpix P1000","Compact",128000,"compact","Superzoom for birds, moon and far-away action.","Sensor:16MP 1/2.3-inch;Video:4K 30p;Zoom:125x (24-3000mm);Screen:3.2\" vari-angle;Viewfinder:EVF;Battery:250 shots;Weight:1415 g");
+X("Canon PowerShot SX740 HS","Compact",52000,"compact","Travel zoom with 4K video in a small body.","Sensor:20.3MP 1/2.3-inch;Video:4K 30p;Zoom:40x (24-960mm);Screen:3.0\" tilting touch;Wireless:Wi-Fi + Bluetooth;Battery:265 shots;Weight:299 g");
+X("DJI Osmo Action 4","Action",48000,"action","Big sensor action cam, great at night.","Sensor:1/1.3-inch;Video:4K 120p;Stabilization:RockSteady 3.0;Waterproof:18 m;Screen:Dual touch;Battery:1770 mAh;Weight:145 g");
+X("Insta360 X3","Action",52000,"action","360° camera, shoot first and choose angle later.","Sensor:Dual 1/2-inch;Video:5.7K 30p 360°;Stabilization:FlowState;Waterproof:10 m;Screen:2.29\" touch;Feature:Invisible selfie stick;Weight:180 g");
+X("GoPro HERO11 Black","Action",52000,"action","Rugged action camera with large 8:7 sensor.","Sensor:27MP;Video:5.3K 60p;Stabilization:HyperSmooth 5.0;Waterproof:10 m;Screen:Front + rear;Battery:1720 mAh;Weight:154 g");
+X("Fujifilm Instax Mini 99","Instant",22000,"instant","Instant camera with creative light and colour effects.","Film:Instax Mini;Modes:Macro, selfie, landscape;Effects:Light and colour filters;Exposure:Manual brightness control;Power:2 x AA;Develop:~90 seconds;Weight:370 g","6 months");
+X("Polaroid Now Gen 2","Instant",18500,"instant","Autofocus Polaroid with 5-lens system and app control.","Film:i-Type and 600;Focus:Autofocus, 5 lenses;Flash:Auto + double exposure;App:Bluetooth Polaroid app;Power:Rechargeable USB-C;Develop:~15 minutes;Weight:458 g","6 months");
+X("Canon XA11","Video",195000,"video","Compact pro camcorder for events, news and weddings.","Sensor:1/2.3-inch CMOS;Video:Full HD 60p;Zoom:20x optical;Audio:2 x XLR via handle;Stabilization:5-axis;Screen:3.5\" touch;Weight:1000 g","2 years");
+function svg(k){
+const body="#1c2a31",lens="#0b1418",ring="#f2a900";
+const L=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${lens}" stroke="#555" stroke-width="3"/><circle cx="${x}" cy="${y}" r="${r*.72}" fill="#16313c"/><circle cx="${x}" cy="${y}" r="${r*.4}" fill="#0a1f29" stroke="${ring}" stroke-width="2"/><circle cx="${x-r*.2}" cy="${y-r*.22}" r="${r*.12}" fill="#fff" opacity=".7"/>`;
+let s="";
+if(k=="dslr")s=`<rect x="25" y="55" width="190" height="95" rx="12" fill="${body}"/><path d="M85 55l10-22h50l10 22z" fill="#2a3b44"/><rect x="45" y="68" width="30" height="14" rx="3" fill="#888"/><rect x="25" y="55" width="40" height="95" rx="12" fill="#2a3b44"/>${L(125,102,42)}<circle cx="195" cy="72" r="8" fill="${ring}"/>`;
+if(k=="mirror")s=`<rect x="30" y="60" width="180" height="85" rx="10" fill="#d0d6db"/><rect x="30" y="60" width="180" height="26" rx="10" fill="${body}"/><rect x="150" y="45" width="40" height="18" rx="4" fill="${body}"/>${L(115,106,36)}<circle cx="185" cy="76" r="6" fill="${ring}"/><rect x="48" y="68" width="28" height="9" rx="2" fill="#777"/>`;
+if(k=="compact")s=`<rect x="40" y="62" width="160" height="82" rx="14" fill="#2a3b44"/>${L(112,104,34)}<rect x="158" y="72" width="30" height="14" rx="3" fill="#ddd"/><circle cx="176" cy="116" r="9" fill="${ring}"/><rect x="60" y="50" width="30" height="14" rx="3" fill="#555"/>`;
+if(k=="action")s=`<rect x="62" y="40" width="116" height="116" rx="16" fill="${body}"/><rect x="72" y="50" width="96" height="96" rx="10" fill="#26363f"/>${L(120,98,34)}<rect x="125" y="56" width="32" height="14" rx="3" fill="#0d1b21"/><circle cx="82" cy="60" r="5" fill="${ring}"/><rect x="95" y="156" width="50" height="14" rx="3" fill="#555"/>`;
+if(k=="instant")s=`<rect x="40" y="48" width="160" height="110" rx="26" fill="#fdf6e3" stroke="#d5c9a3" stroke-width="3"/><rect x="60" y="62" width="40" height="22" rx="6" fill="#222"/>${L(130,108,34)}<circle cx="73" cy="125" r="9" fill="${ring}"/><rect x="62" y="136" width="30" height="8" rx="3" fill="#cfc19a"/>`;
+if(k=="video")s=`<rect x="40" y="70" width="150" height="74" rx="8" fill="${body}"/><rect x="190" y="82" width="40" height="50" rx="6" fill="${lens}" stroke="#555" stroke-width="3"/><circle cx="210" cy="107" r="14" fill="#16313c" stroke="${ring}" stroke-width="2"/><rect x="60" y="40" width="100" height="30" rx="6" fill="#2a3b44"/><rect x="72" y="46" width="76" height="6" rx="3" fill="${ring}"/><circle cx="170" cy="86" r="5" fill="#e33"/><rect x="70" y="144" width="12" height="14" fill="#555"/><rect x="140" y="144" width="12" height="14" fill="#555"/>`;
+if(k=="acc")s=`<rect x="85" y="40" width="80" height="80" rx="14" fill="${body}"/><rect x="108" y="20" width="10" height="24" fill="#aaa"/><rect x="132" y="20" width="10" height="24" fill="#aaa"/><path d="M135 62l-22 28h16l-6 22 24-30h-16z" fill="${ring}"/><path d="M125 120v20q0 18 30 18" stroke="#333" stroke-width="5" fill="none"/>`;
+if(k=="tv")s=`<rect x="25" y="20" width="200" height="118" rx="8" fill="${body}"/><rect x="31" y="26" width="188" height="106" rx="4" fill="#1b5f86"/><path d="M31 110l60-50 40 34 30-22 58 40v26H31z" fill="#e9b44c" opacity=".45"/><circle cx="175" cy="52" r="10" fill="#fff" opacity=".5"/><rect x="105" y="138" width="40" height="14" fill="#555"/><rect x="80" y="152" width="90" height="7" rx="3" fill="#333"/>`;
+if(k=="phone")s=`<rect x="82" y="8" width="86" height="164" rx="16" fill="${body}"/><rect x="88" y="14" width="74" height="152" rx="11" fill="#2b6f8e"/><rect x="88" y="14" width="74" height="152" rx="11" fill="#e9b44c" opacity=".35"/><rect x="113" y="19" width="24" height="6" rx="3" fill="#000"/><circle cx="125" cy="95" r="20" fill="#fff" opacity=".25"/><rect x="95" y="140" width="60" height="5" rx="2" fill="#fff" opacity=".6"/>`;
+return `<svg viewBox="0 0 250 180" aria-hidden="true">${s}</svg>`;
+}
+const pic=c=>c.img?`<img src="${c.img}" alt="${c.n}">`:svg(c.k);
+const fmt=n=>"৳ "+n.toLocaleString("en-IN");
+
+const mobiles=[];
+const BP={Samsung:["#d6e2f7","#8fb0e6"],Apple:["#e8e8ea","#b5b8bf"],Xiaomi:["#fbe0cc","#f2a36b"],Realme:["#fbf1b8","#eacb45"],Oppo:["#d5efdc","#7ec99b"],Vivo:["#dcd6f5","#9e8fe0"],Infinix:["#d3f0f0","#74c8c8"],Tecno:["#f5d5e3","#e08fb0"],Google:["#e2eed1","#a9cf78"]};
+const M=(n,t,p,d,sp,w)=>mobiles.push({n,t,p,k:"phone",d,c:BP[t],s:Object.fromEntries(sp.split(";").map(x=>x.split(":")).concat([["Warranty",w||"1 year"]]))});
+M("Samsung Galaxy S25 Ultra","Samsung",195000,"Flagship with built-in S Pen and top camera.","Display:6.9\" AMOLED 120Hz;Chipset:Snapdragon 8 Elite;RAM/Storage:12GB / 256GB;Camera:200MP + 50MP + 50MP + 10MP;Battery:5000 mAh, 45W;OS:Android 15");
+M("Samsung Galaxy S25","Samsung",115000,"Compact flagship with strong AI features.","Display:6.2\" AMOLED 120Hz;Chipset:Snapdragon 8 Elite;RAM/Storage:12GB / 256GB;Camera:50MP + 12MP + 10MP;Battery:4000 mAh, 25W;OS:Android 15");
+M("Samsung Galaxy A56","Samsung",58000,"Premium mid-ranger with bright display.","Display:6.7\" AMOLED 120Hz;Chipset:Exynos 1580;RAM/Storage:8GB / 256GB;Camera:50MP + 12MP + 5MP;Battery:5000 mAh, 45W;OS:Android 15");
+M("Samsung Galaxy A36","Samsung",44000,"Balanced phone for daily work and photos.","Display:6.7\" AMOLED 120Hz;Chipset:Snapdragon 6 Gen 3;RAM/Storage:8GB / 128GB;Camera:50MP + 8MP + 5MP;Battery:5000 mAh, 45W;OS:Android 15");
+M("Samsung Galaxy A16","Samsung",25000,"Budget Samsung with big battery.","Display:6.7\" AMOLED 90Hz;Chipset:Helio G99;RAM/Storage:6GB / 128GB;Camera:50MP + 5MP + 2MP;Battery:5000 mAh, 25W;OS:Android 14");
+M("iPhone 16 Pro Max","Apple",205000,"Biggest iPhone with pro camera system.","Display:6.9\" OLED 120Hz;Chipset:A18 Pro;RAM/Storage:8GB / 256GB;Camera:48MP + 48MP + 12MP;Battery:~4685 mAh;OS:iOS 18","1 year Apple");
+M("iPhone 16","Apple",125000,"Fast A18 chip and Camera Control button.","Display:6.1\" OLED 60Hz;Chipset:A18;RAM/Storage:8GB / 128GB;Camera:48MP + 12MP;Battery:~3561 mAh;OS:iOS 18","1 year Apple");
+M("iPhone 15","Apple",95000,"Reliable iPhone with USB-C.","Display:6.1\" OLED 60Hz;Chipset:A16 Bionic;RAM/Storage:6GB / 128GB;Camera:48MP + 12MP;Battery:~3349 mAh;OS:iOS 17","1 year Apple");
+M("Redmi Note 14 Pro","Xiaomi",38000,"200MP camera at a mid-range price.","Display:6.67\" AMOLED 120Hz;Chipset:Dimensity 7300 Ultra;RAM/Storage:8GB / 256GB;Camera:200MP + 8MP + 2MP;Battery:5500 mAh, 45W;OS:Android 14 (HyperOS)");
+M("Poco X7 Pro","Xiaomi",45000,"Gaming-focused with huge battery.","Display:6.67\" AMOLED 120Hz;Chipset:Dimensity 8400 Ultra;RAM/Storage:8GB / 256GB;Camera:50MP + 8MP;Battery:6000 mAh, 90W;OS:Android 15 (HyperOS 2)");
+M("Redmi 14C","Xiaomi",15000,"Big screen entry phone.","Display:6.88\" LCD 120Hz;Chipset:Helio G81 Ultra;RAM/Storage:4GB / 128GB;Camera:50MP;Battery:5160 mAh, 18W;OS:Android 14");
+M("Realme 14 Pro+","Realme",55000,"Periscope zoom and cold-sensitive colour back.","Display:6.83\" AMOLED 120Hz;Chipset:Snapdragon 7s Gen 3;RAM/Storage:8GB / 256GB;Camera:50MP + 50MP periscope + 8MP;Battery:6000 mAh, 80W;OS:Android 15");
+M("Realme C75","Realme",22000,"Tough budget phone with 6000mAh battery.","Display:6.72\" LCD 120Hz;Chipset:Helio G92 Max;RAM/Storage:8GB / 256GB;Camera:50MP;Battery:6000 mAh, 45W;OS:Android 14");
+M("Oppo Reno 13","Oppo",62000,"Portrait specialist with fast charging.","Display:6.59\" AMOLED 120Hz;Chipset:Dimensity 8350;RAM/Storage:12GB / 256GB;Camera:50MP + 8MP + 50MP;Battery:5600 mAh, 80W;OS:Android 15");
+M("Oppo A5 Pro","Oppo",28000,"Durable daily phone with big battery.","Display:6.67\" LCD 120Hz;Chipset:Snapdragon 6 Gen 1;RAM/Storage:8GB / 256GB;Camera:50MP + 2MP;Battery:5800 mAh, 45W;OS:Android 15");
+M("Vivo V50","Vivo",60000,"Zeiss-tuned camera and slim design.","Display:6.77\" AMOLED 120Hz;Chipset:Snapdragon 7 Gen 3;RAM/Storage:12GB / 256GB;Camera:50MP + 50MP ultrawide;Battery:6000 mAh, 90W;OS:Android 15");
+M("Vivo Y29","Vivo",22000,"Affordable and sturdy.","Display:6.68\" LCD 120Hz;Chipset:Helio G85;RAM/Storage:8GB / 128GB;Camera:50MP;Battery:5500 mAh, 44W;OS:Android 15");
+M("Infinix Note 50 Pro","Infinix",32000,"144Hz display and 90W charging.","Display:6.78\" AMOLED 144Hz;Chipset:Helio G100 Ultra;RAM/Storage:8GB / 256GB;Camera:50MP + 2MP;Battery:5200 mAh, 90W;OS:Android 15");
+M("Tecno Camon 40 Pro","Tecno",33000,"Selfie and portrait focused.","Display:6.78\" AMOLED 120Hz;Chipset:Helio G100;RAM/Storage:8GB / 256GB;Camera:50MP OIS (front 50MP);Battery:5200 mAh, 70W;OS:Android 15");
+M("Google Pixel 9a","Google",95000,"Clean Android with excellent camera AI.","Display:6.3\" pOLED 120Hz;Chipset:Tensor G4;RAM/Storage:8GB / 128GB;Camera:48MP + 13MP;Battery:5100 mAh, 23W;OS:Android 15 (7 years updates)");
+
+const tvs=[];
+const TP={Samsung:["#d6e2f7","#8fb0e6"],Sony:["#e3e3e6","#9aa0ab"],LG:["#f5d6dc","#dc8c9b"],Xiaomi:["#fbe0cc","#f2a36b"],TCL:["#d3ecf7","#76bbe0"],Hisense:["#d6efe3","#7cc9a4"],Walton:["#f7e8b8","#e5c356"],Vision:["#e2dcf5","#a395e0"]};
+const T=(t,z,m,r,os,hz,p,w)=>tvs.push({n:`${t} ${z}" ${m}`,t,p,k:"tv",d:`${z}-inch ${r} smart TV, ${m}.`,c:TP[t],s:{Screen:z+" inch",Panel:m,Resolution:r,"Smart OS":os,Refresh:hz+" Hz",Connectivity:"Wi-Fi, Bluetooth, HDMI, USB",Warranty:w||"1 year"}});
+T("Samsung",43,"Crystal 4K","4K UHD","Tizen",60,48000);
+T("Samsung",55,"Crystal 4K","4K UHD","Tizen",60,68000);
+T("Samsung",65,"QLED 4K","4K UHD","Tizen",120,125000,"2 years");
+T("Samsung",75,"Neo QLED","4K UHD","Tizen",120,310000,"2 years");
+T("Samsung",85,"Crystal 4K","4K UHD","Tizen",60,260000,"2 years");
+T("Sony",32,"Bravia HD","HD","Google TV",60,38000);
+T("Sony",43,"Bravia 4K","4K UHD","Google TV",60,80000);
+T("Sony",55,"Bravia 4K","4K UHD","Google TV",60,120000,"2 years");
+T("Sony",65,"Bravia OLED","4K OLED","Google TV",120,380000,"2 years");
+T("Sony",75,"Bravia 4K","4K UHD","Google TV",60,320000,"2 years");
+T("LG",32,"HD Smart","HD","webOS",60,30000);
+T("LG",43,"UHD 4K","4K UHD","webOS",60,52000);
+T("LG",50,"UHD 4K","4K UHD","webOS",60,62000);
+T("LG",55,"UHD 4K","4K UHD","webOS",60,75000);
+T("LG",65,"OLED evo","4K OLED","webOS",120,320000,"2 years");
+T("LG",75,"QNED 4K","4K UHD","webOS",120,230000,"2 years");
+T("Xiaomi",32,"Smart A","HD","Google TV",60,19000);
+T("Xiaomi",43,"TV A","4K UHD","Google TV",60,32000);
+T("Xiaomi",55,"TV A Pro","4K UHD","Google TV",60,52000);
+T("TCL",32,"Android HD","HD","Android TV",60,18000);
+T("TCL",43,"4K Google TV","4K UHD","Google TV",60,33000);
+T("TCL",55,"QLED 4K","4K QLED","Google TV",60,62000);
+T("TCL",65,"QLED 4K","4K QLED","Google TV",120,95000);
+T("TCL",75,"QLED 4K","4K QLED","Google TV",120,160000);
+T("Hisense",43,"4K VIDAA","4K UHD","VIDAA",60,34000);
+T("Hisense",55,"QLED 4K","4K QLED","Google TV",60,58000);
+T("Hisense",65,"4K Smart","4K UHD","VIDAA",60,82000);
+T("Walton",32,"Smart LED","HD","Android",60,17000);
+T("Walton",43,"4K Smart","4K UHD","Android",60,36000);
+T("Vision",43,"Smart LED","Full HD","Android",60,28000);
+
+BP.OnePlus=["#fbd5d5","#e88a8a"];BP.Nothing=["#ececec","#b8b8b8"];
+const N=(n,t,p,dsp,chip,mem,cam,bat,os)=>M(n,t,p,`${n} with ${chip} and a ${bat} mAh battery.`,`Display:${dsp};Chipset:${chip};RAM/Storage:${mem};Camera:${cam};Battery:${bat} mAh;OS:${os||"Android"}`,t=="Apple"?"1 year Apple":"1 year");
+N("Samsung Galaxy S24 Ultra","Samsung",150000,'6.8" AMOLED 120Hz',"Snapdragon 8 Gen 3","12GB / 256GB","200MP + 50MP + 12MP + 10MP",5000);
+N("Samsung Galaxy S24 FE","Samsung",85000,'6.7" AMOLED 120Hz',"Exynos 2400e","8GB / 256GB","50MP + 12MP + 8MP",4700);
+N("Samsung Galaxy A26","Samsung",36000,'6.7" AMOLED 120Hz',"Exynos 1380","8GB / 128GB","50MP + 8MP + 2MP",5000);
+N("Samsung Galaxy A06","Samsung",15000,'6.7" LCD 60Hz',"Helio G85","4GB / 64GB","50MP + 2MP",5000);
+N("iPhone 16 Plus","Apple",140000,'6.7" OLED 60Hz',"A18","8GB / 128GB","48MP + 12MP",4674,"iOS 18");
+N("iPhone 16e","Apple",85000,'6.1" OLED 60Hz',"A18","8GB / 128GB","48MP",4005,"iOS 18");
+N("iPhone 14","Apple",75000,'6.1" OLED 60Hz',"A15 Bionic","6GB / 128GB","12MP + 12MP",3279,"iOS 16");
+N("iPhone 13","Apple",62000,'6.1" OLED 60Hz',"A15 Bionic","4GB / 128GB","12MP + 12MP",3240,"iOS 15");
+N("Xiaomi 14T","Xiaomi",70000,'6.67" AMOLED 144Hz',"Dimensity 8300 Ultra","12GB / 256GB","50MP + 50MP + 12MP",5000);
+N("Poco F6","Xiaomi",50000,'6.67" AMOLED 120Hz',"Snapdragon 8s Gen 3","8GB / 256GB","50MP + 8MP",5000);
+N("Redmi Note 13","Xiaomi",26000,'6.67" AMOLED 120Hz',"Snapdragon 685","8GB / 128GB","108MP + 8MP + 2MP",5000);
+N("Redmi 13","Xiaomi",18000,'6.79" LCD 90Hz',"Helio G91 Ultra","6GB / 128GB","108MP + 2MP",5030);
+N("Redmi A3","Xiaomi",11000,'6.71" LCD 90Hz',"Helio G36","3GB / 64GB","8MP",5000);
+N("Realme 13 Pro","Realme",42000,'6.74" AMOLED 120Hz',"Snapdragon 7s Gen 2","8GB / 256GB","50MP + 8MP",5200);
+N("Realme Narzo 70","Realme",20000,'6.67" AMOLED 120Hz',"Dimensity 7050","8GB / 128GB","50MP + 2MP",5000);
+N("Realme C63","Realme",14000,'6.74" LCD 90Hz',"Unisoc T612","6GB / 128GB","50MP",5000);
+N("Oppo Reno 12","Oppo",52000,'6.7" AMOLED 120Hz',"Dimensity 7300","12GB / 256GB","50MP + 8MP + 2MP",5000);
+N("Oppo A60","Oppo",21000,'6.67" LCD 90Hz',"Snapdragon 680","8GB / 128GB","50MP + 2MP",5000);
+N("Vivo V40","Vivo",55000,'6.78" AMOLED 120Hz',"Snapdragon 7 Gen 3","12GB / 256GB","50MP + 50MP",5500);
+N("Vivo Y19s","Vivo",18000,'6.68" LCD 90Hz',"Helio G85","6GB / 128GB","50MP",5500);
+N("Infinix Hot 50","Infinix",16000,'6.78" LCD 120Hz',"Helio G81 Ultra","8GB / 128GB","48MP",5000);
+N("Infinix Zero 40","Infinix",45000,'6.78" AMOLED 144Hz',"Dimensity 8200 Ultra","12GB / 256GB","50MP + 50MP + 50MP",5000);
+N("Tecno Spark 30","Tecno",17000,'6.78" LCD 120Hz',"Helio G91","8GB / 128GB","64MP",5000);
+N("Tecno Pova 6","Tecno",26000,'6.78" AMOLED 120Hz',"Dimensity 6080","8GB / 256GB","108MP + 2MP",6000);
+N("Google Pixel 8","Google",80000,'6.2" OLED 120Hz',"Tensor G3","8GB / 128GB","50MP + 12MP",4575);
+N("OnePlus 13","OnePlus",110000,'6.82" AMOLED 120Hz',"Snapdragon 8 Elite","12GB / 256GB","50MP x3 (Hasselblad)",6000);
+N("OnePlus Nord CE4","OnePlus",40000,'6.7" AMOLED 120Hz',"Snapdragon 7 Gen 3","8GB / 256GB","50MP + 8MP",5500);
+N("Nothing Phone (3a)","Nothing",55000,'6.77" AMOLED 120Hz',"Snapdragon 7s Gen 3","8GB / 128GB","50MP + 50MP + 8MP",5000);
+const Y=(n,t,p,k,sen,vid,feat,wt,w)=>X(n,t,p,k,`${t} camera with ${sen}.`,`Sensor:${sen};Video:${vid};Highlight:${feat};Weight:${wt} g`,w);
+Y("Canon EOS 2000D","DSLR",45000,"dslr","24.1MP APS-C","Full HD 30p","Best first DSLR",475);
+Y("Nikon D3500","DSLR",55000,"dslr","24.2MP APS-C","Full HD 60p","Guide mode, 1550 shots",415);
+Y("Canon EOS 250D","DSLR",68000,"dslr","24.1MP APS-C","4K 24p","Lightest vari-angle DSLR",449);
+Y("Canon EOS 6D Mark II","DSLR",160000,"dslr","26.2MP Full-frame","Full HD 60p","Full-frame at a fair price",765,"2 years");
+Y("Nikon D850","DSLR",330000,"dslr","45.7MP Full-frame","4K 30p","Pro resolution, 7 fps",1005,"2 years");
+Y("Canon EOS M50 Mark II","Mirrorless",65000,"mirror","24.1MP APS-C","4K 24p","Made for vlogging",387);
+Y("Sony Alpha a6100","Mirrorless",82000,"mirror","24.2MP APS-C","4K 30p","Real-time tracking AF",396);
+Y("Sony Alpha a7 III","Mirrorless",210000,"mirror","24.2MP Full-frame","4K 30p","10 fps, 5-axis IBIS",650,"2 years");
+Y("Nikon Z6 II","Mirrorless",230000,"mirror","24.5MP Full-frame","4K 60p","Dual card slots",705,"2 years");
+Y("Fujifilm X-T5","Mirrorless",250000,"mirror","40.2MP APS-C","6.2K 30p","Dial-based classic controls",557,"2 years");
+Y("Canon EOS R10","Mirrorless",105000,"mirror","24.2MP APS-C","4K 60p","15 fps with subject detection",429);
+Y("Sony Alpha a7C II","Mirrorless",270000,"mirror","33MP Full-frame","4K 60p","Compact full-frame, AI AF",514,"2 years");
+Y("Canon PowerShot G7X Mark II","Compact",75000,"compact","20.1MP 1-inch","Full HD 60p","Bright f/1.8 lens",319);
+Y("Panasonic Lumix ZS200","Compact",95000,"compact","20.1MP 1-inch","4K 30p","15x zoom with EVF",340);
+Y("Ricoh GR III","Compact",115000,"compact","24.2MP APS-C","Full HD 60p","Street photographer's pocket camera",257);
+Y("DJI Osmo Pocket 3","Action",62000,"action","1-inch CMOS","4K 120p","3-axis gimbal, rotating screen",179);
+Y("GoPro HERO13 Black","Action",62000,"action","27MP","5.3K 60p","Swappable lens system",154);
+Y("Insta360 Ace Pro","Action",55000,"action","1/1.3-inch","4K 120p","Leica lens, AI features",179);
+Y("Fujifilm Instax Mini 11","Instant",11500,"instant","Instax Mini film","Not applicable","Auto exposure, selfie mirror",293,"6 months");
+T("Samsung",32,"HD Smart","HD","Tizen",60,26000);
+T("Samsung",50,"Crystal 4K","4K UHD","Tizen",60,58000);
+T("Samsung",55,"QLED 4K","4K QLED","Tizen",120,95000,"2 years");
+T("Sony",50,"Bravia 4K","4K UHD","Google TV",60,95000);
+T("Sony",85,"Bravia 4K","4K UHD","Google TV",60,550000,"2 years");
+T("LG",43,"Full HD Smart","Full HD","webOS",60,40000);
+T("LG",55,"QNED 4K","4K UHD","webOS",120,130000,"2 years");
+T("LG",77,"OLED evo","4K OLED","webOS",120,650000,"2 years");
+T("Xiaomi",50,"TV A","4K UHD","Google TV",60,40000);
+T("Xiaomi",65,"TV A Pro","4K UHD","Google TV",60,80000);
+T("TCL",50,"4K Google TV","4K UHD","Google TV",60,40000);
+T("TCL",85,"QLED 4K","4K QLED","Google TV",120,300000,"2 years");
+T("Hisense",32,"HD Smart","HD","VIDAA",60,17000);
+T("Hisense",75,"QLED 4K","4K QLED","Google TV",120,150000,"2 years");
+T("Walton",50,"4K Smart","4K UHD","Android",60,45000);
+T("Walton",55,"4K Smart","4K UHD","Android",60,55000);
+T("Vision",32,"Smart LED","HD","Android",60,15000);
+T("Vision",55,"4K Smart","4K UHD","Android",60,48000);
+
+const acc=[];
+const AP={Chargers:["#d6e2f7","#8fb0e6"],Earbuds:["#f5d5e3","#e08fb0"],"Power banks":["#d3f0ec","#6cc3c0"],Covers:["#fbf1b8","#eacb45"],Memory:["#e2dcf5","#a395e0"],Cables:["#e3e3e6","#9aa0ab"]};
+const A=(n,t,p,feat,comp,w)=>acc.push({n,t,p,k:"acc",d:feat,c:AP[t],s:{Feature:feat,"Works with":comp,Warranty:w||"6 months"}});
+A("Anker 20W USB-C Charger","Chargers",2800,"Fast charging for phones","iPhone, Android, tablets");
+A("Samsung 25W Fast Charger","Chargers",2500,"Super fast charging 25W","Samsung Galaxy phones");
+A("Apple 20W USB-C Power Adapter","Chargers",3500,"Official Apple fast charger","iPhone, iPad","1 year");
+A("Anker 65W GaN Charger","Chargers",6500,"Charges a laptop and phone together","Laptops, phones, tablets","18 months");
+A("Apple AirPods Pro 2","Earbuds",30000,"Active noise cancellation, USB-C case","iPhone, Android","1 year");
+A("Samsung Galaxy Buds3","Earbuds",18000,"Noise cancellation, clear calls","Samsung, Android","1 year");
+A("Redmi Buds 6","Earbuds",4500,"Hybrid noise cancellation","Android, iPhone","1 year");
+A("Realme Buds T110","Earbuds",2200,"Big bass, long battery","Android, iPhone","1 year");
+A("Anker 20000mAh Power Bank","Power banks",5500,"20000 mAh, fast charge","Phones, tablets","18 months");
+A("Xiaomi 10000mAh Power Bank","Power banks",2500,"Slim 10000 mAh, 22.5W","Phones, earbuds","6 months");
+A("Baseus 30000mAh 65W Power Bank","Power banks",9500,"Charges phones and laptops","Phones, laptops, tablets","1 year");
+A("Spigen Rugged Armor Case","Covers",2500,"Shock-absorbing soft case","Popular phone models");
+A("Tempered Glass Screen Guard","Covers",500,"9H hardness, scratch protection","Popular phone models","No warranty");
+A("SanDisk Ultra 128GB microSD","Memory",1500,"Class 10, 120 MB/s read","Phones, action cameras","Lifetime");
+A("SanDisk Extreme 256GB SD Card","Memory",4500,"Fast 4K video recording","DSLR, mirrorless cameras","Lifetime");
+A("USB-C to USB-C Cable 1m","Cables",1200,"60W fast charging and data","Android phones, laptops");
+const DATA={mobiles,cameras:cams,tvs,acc},cur={mobiles:"All",cameras:"All",tvs:"All",acc:"All"};
+
+const PL=[[3,0],[6,0],[12,5]];
+const emiL=pr=>{const d=Math.round(pr*.2),r=pr-d;return PL.map(([m,i])=>({m,i,d,x:Math.round(r*(1+i/100)/m)}))};
+const emiH=pr=>pr<15000?"":`<div class="emi"><b>EMI available</b>${emiL(pr).map(o=>`<div>${o.m} months${o.i?" (5% charge)":" (0% interest)"}: <b>${fmt(o.x)}</b>/month <small>after ${fmt(o.d)} down payment</small></div>`).join("")}</div>`;
+const ep=document.getElementById("ep"),eo=document.getElementById("eo");
+const calc=()=>{const v=+ep.value;eo.className="eo";eo.innerHTML=v<15000?'<p class="tag">EMI is available for products priced ৳15,000 or more.</p>':emiL(v).map(o=>`<div><b>${o.m} months</b><br>${fmt(o.x)} per month<br><small>Down payment ${fmt(o.d)} &middot; ${o.i?"5% service charge":"0% interest"}</small></div>`).join("")};ep.oninput=calc;calc();
+const eff=c=>c.off?Math.round(c.p*(1-c.off/100)):c.p;
+const ph=c=>c.off?`<s>${fmt(c.p)}</s><b>${fmt(eff(c))}</b>`:`<b>${fmt(c.p)}</b>`;
+Object.entries(DATA).forEach(([cat,l])=>l.forEach((c,i)=>{c.cat=cat;c.i=i;if(i%7==3)c.off=10;if(i%11==0)c.tg="New";else if(i%9==4)c.tg="Best";if(c.off)c.tg="Hot deal"}));
+let cart=[],cmp=[];
+const key=c=>c.cat+":"+c.i,find=k=>{const[a,b]=k.split(":");return DATA[a][+b]};
+function cardH(c){return `<div class="card" tabindex="0" data-k="${key(c)}" style="--c1:${c.c[0]};--c2:${c.c[1]}">${c.tg?`<span class="tg ${c.tg.split(" ")[0]}">${c.tg=="Best"?"Best seller":c.tg}</span>`:""}<span class="stk">${c.st||"In stock"}</span><div class="pic">${pic(c)}</div><div class="body"><h3>${c.n}</h3><div class="tag">${c.t} · ${c.d}</div><div class="price"><span>${ph(c)}</span><small>View details</small></div><div class="acts"><label class="cmp"><input type="checkbox" data-k="${key(c)}"${cmp.includes(key(c))?" checked":""}>Compare</label><button class="add" data-k="${key(c)}">Add to cart</button></div></div></div>`}
+const F={};
+function render(cat){
+const list=DATA[cat],types=["All",...new Set(list.map(c=>c.t))],f=F[cat]||(F[cat]={q:"",sort:"",max:0});
+document.getElementById("tabs-"+cat).innerHTML=types.map(t=>`<button class="${t==cur[cat]?'on':''}" data-t="${t}">${t}</button>`).join("");
+let r=list.filter(c=>(cur[cat]=="All"||c.t==cur[cat])&&(!f.max||eff(c)<=f.max)&&(!f.q||(c.n+" "+c.t+" "+Object.values(c.s).join(" ")).toLowerCase().includes(f.q.toLowerCase())));
+if(f.sort)r=[...r].sort((a,b)=>f.sort=="lo"?eff(a)-eff(b):eff(b)-eff(a));
+document.getElementById("grid-"+cat).innerHTML=r.length?r.map(cardH).join(""):'<p style="padding:0 5vw;color:var(--mute)">No products found. Try a different search or filter.</p>';
+}
+function sync(){cn.textContent=cart.reduce((a,x)=>a+x.q,0);cmpbar.classList.toggle("on",cmp.length>0);cmpn.textContent=cmp.length+" selected (max 3)"}
+function addCart(k){const x=cart.find(y=>y.k==k);x?x.q++:cart.push({k,q:1});sync();cartb.animate([{transform:"scale(1.25)"},{transform:"scale(1)"}],300)}
+function onGrid(e){const el=e.target;
+if(el.matches(".cmp input")){const k=el.dataset.k;if(el.checked){if(cmp.length>=3){el.checked=false;return}cmp.push(k)}else cmp=cmp.filter(x=>x!=k);sync();return}
+if(el.closest(".cmp"))return;
+if(el.closest(".add")){addCart(el.closest(".add").dataset.k);return}
+const c=el.closest(".card");if(c){const o=find(c.dataset.k);open_(o.cat,o.i)}}
+["mobiles","cameras","tvs","acc"].forEach(cat=>{
+const tb=document.getElementById("tabs-"+cat),f=F[cat]={q:"",sort:"",max:0};
+tb.insertAdjacentHTML("beforebegin",`<div class="tools"><input type="search" placeholder="Search by name, brand or spec" aria-label="Search" id="q-${cat}"><select id="s-${cat}" aria-label="Sort"><option value="">Sort: Default</option><option value="lo">Price: Low to high</option><option value="hi">Price: High to low</option></select><select id="m-${cat}" aria-label="Budget"><option value="0">Any budget</option><option value="10000">Under ৳10,000</option><option value="25000">Under ৳25,000</option><option value="50000">Under ৳50,000</option><option value="100000">Under ৳1,00,000</option><option value="200000">Under ৳2,00,000</option></select></div>`);
+document.getElementById("q-"+cat).oninput=e=>{f.q=e.target.value;render(cat)};
+document.getElementById("s-"+cat).onchange=e=>{f.sort=e.target.value;render(cat)};
+document.getElementById("m-"+cat).onchange=e=>{f.max=+e.target.value;render(cat)};
+tb.onclick=e=>{if(e.target.dataset.t){cur[cat]=e.target.dataset.t;render(cat)}};
+const g=document.getElementById("grid-"+cat);g.onclick=onGrid;g.onkeydown=e=>{if(e.key=="Enter"&&e.target.classList.contains("card"))onGrid(e)};
+render(cat)});
+const dl=document.getElementById("deals");
+dl.innerHTML=["mobiles","cameras","tvs","acc"].flatMap(k=>DATA[k].filter(c=>c.off).slice(0,3)).map(cardH).join("");dl.onclick=onGrid;
+cmpx.onclick=()=>{cmp=[];sync();["mobiles","cameras","tvs","acc"].forEach(render)};
+cmpgo.onclick=()=>{if(cmp.length<2){alert("Select at least 2 products to compare");return}
+const L=cmp.map(find),keys=[...new Set(L.flatMap(c=>Object.keys(c.s)))];
+box.className="box one";box.innerHTML=`<div class="info"><button class="x" id="cl">×</button><h3>Compare</h3><div style="overflow-x:auto"><table class="cmpt"><tr><th></th>${L.map(c=>`<th>${c.n}</th>`).join("")}</tr><tr><td>Price</td>${L.map(c=>`<td><b>${fmt(eff(c))}</b></td>`).join("")}</tr>${keys.map(k=>`<tr><td>${k}</td>${L.map(c=>`<td>${c.s[k]||"-"}</td>`).join("")}</tr>`).join("")}</table></div></div>`;modal.classList.add("open");cl.onclick=()=>modal.classList.remove("open")};
+function cartView(){box.className="box one";const L=cart.map(x=>({c:find(x.k),q:x.q,k:x.k})),tot=L.reduce((a,x)=>a+eff(x.c)*x.q,0);
+box.innerHTML=`<div class="info"><button class="x" id="cl">×</button><h3>Your cart</h3>${L.length?L.map(x=>`<div class="ct"><span>${x.c.n}<br><small class="tag">${fmt(eff(x.c))}</small></span><input type="number" min="1" value="${x.q}" data-k="${x.k}" aria-label="Quantity"><button data-r="${x.k}" aria-label="Remove">&#128465;</button></div>`).join("")+`<h2 style="color:var(--teal)">Total: ${fmt(tot)}</h2><form class="ord show" id="co"><input id="c1" required placeholder="Your name"><input id="c2" required type="tel" placeholder="Phone number"><textarea id="c3" required rows="2" placeholder="Full address"></textarea><button class="btn" type="submit">Send order on WhatsApp</button></form>`:'<p class="tag">Your cart is empty.</p>'}</div>`;
+cl.onclick=()=>modal.classList.remove("open");
+box.querySelectorAll(".ct input").forEach(i=>i.onchange=()=>{cart.find(y=>y.k==i.dataset.k).q=Math.max(1,+i.value||1);sync();cartView()});
+box.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{cart=cart.filter(y=>y.k!=b.dataset.r);sync();cartView()});
+const co=document.getElementById("co");if(co)co.onsubmit=e=>{e.preventDefault();const t=L.map(x=>`- ${x.c.n} x${x.q} = ${fmt(eff(x.c)*x.q)}`).join("\\n");window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(`Hello, I would like to order:\\n${t}\\nTotal: ${fmt(tot)}\\nName: ${c1.value}\\nPhone: ${c2.value}\\nAddress: ${c3.value}`),"_blank")};
+modal.classList.add("open")}
+cartb.onclick=cartView;
+function open_(cat,i){
+const c=DATA[cat][i],m=document.getElementById("modal");box.className="box";
+document.getElementById("box").innerHTML=`<div class="pic" style="--c1:${c.c[0]};--c2:${c.c[1]}">${pic(c)}</div><div class="info"><button class="x" aria-label="Close" id="cl">×</button><h3>${c.n}</h3><div class="tag">${c.t}</div><p>${c.d}</p><table>${Object.entries(c.s).map(([a,b])=>`<tr><td>${a}</td><td>${b}</td></tr>`).join("")}</table><h2 style="color:var(--teal)">${ph(c)}</h2>${emiH(eff(c))}<p class="tag">Stock available · Cash on delivery</p><button class="btn" id="buy">Order now</button><button class="btn ghost2" id="addc">Add to cart</button><form class="ord" id="ord"><input id="o1" required placeholder="Your name"><input id="o2" required type="tel" placeholder="Phone number"><textarea id="o3" required rows="2" placeholder="Full address"></textarea><input id="o4" type="number" min="1" value="1" aria-label="Quantity"><select id="o5" style="padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)"><option>Cash on delivery</option>${eff(c)>=15000?"<option>EMI 3 months</option><option>EMI 6 months</option><option>EMI 12 months</option>":""}</select><button class="btn" type="submit">Send order on WhatsApp</button></form></div>`;
+m.classList.add("open");
+const cl=document.getElementById("cl");cl.focus();cl.onclick=()=>m.classList.remove("open");
+document.getElementById("addc").onclick=()=>{addCart(key(c));m.classList.remove("open")};
+document.getElementById("buy").onclick=()=>document.getElementById("ord").classList.toggle("show");
+document.getElementById("ord").onsubmit=e=>{e.preventDefault();const q=+o4.value||1;const msg=`Hello, I would like to order ${c.n}.\nQuantity: ${q}\nTotal: ${fmt(eff(c)*q)}\nPayment: ${o5.value}\nName: ${o1.value}\nPhone: ${o2.value}\nAddress: ${o3.value}`;window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`,"_blank")};
+}
+
+const modal=document.getElementById("modal");
+modal.onclick=e=>{if(e.target.id=="modal")modal.classList.remove("open")};
+document.onkeydown=e=>{if(e.key=="Escape")modal.classList.remove("open")};
+function route(){const h=location.hash;if(!h.startsWith("#/"))return;const pg=h.slice(2)||"home";document.querySelectorAll(".page").forEach(x=>x.hidden=x.id!="p-"+pg);scrollTo(0,0)}
+addEventListener("hashchange",route);route();
+document.getElementById("waFloat").href="https://wa.me/"+WA+"?text="+encodeURIComponent("Hello Rifat Electronics, I would like to know about a product.");
+
+["phone","dslr","tv","acc"].forEach((k,i)=>document.getElementById("pp"+(i+1)).innerHTML=svg(k));
+document.getElementById("xWa").href="https://wa.me/"+WA+"?text="+encodeURIComponent("Hello, I want to exchange my old phone. Model: \nCondition: \nI am interested in buying: ");
+thm.onclick=()=>{const r=document.documentElement,d=r.dataset.theme?r.dataset.theme=="dark":matchMedia("(prefers-color-scheme: dark)").matches;r.dataset.theme=d?"light":"dark"};
+let bn=0;lng.onclick=()=>{bn=!bn;document.querySelectorAll("[data-bn]").forEach(e=>{if(!e.dataset.en)e.dataset.en=e.textContent;e.textContent=bn?e.dataset.bn:e.dataset.en});lng.textContent=bn?"English":"বাংলা"};sync();
+const ss=[["phone","Mobiles","#/mobiles"],["dslr","Cameras","#/cameras"],["tv","TVs","#/tvs"]];
+sls.innerHTML=ss.map(x=>`<div class="sl">${svg(x[0])}</div>`).join("");
+lab.innerHTML=ss.map(x=>`<a href="${x[2]}">${x[1]}</a>`).join("");
+let si=0;const tick=()=>{[...sls.children].forEach((e,i)=>e.classList.toggle("on",i==si));[...lab.children].forEach((e,i)=>e.classList.toggle("on",i==si));si=(si+1)%3};tick();setInterval(tick,2800);
+sky.onpointermove=e=>{const r=sky.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;show.style.transform=`rotateY(${x*14}deg) rotateX(${-y*10}deg)`};
+document.getElementById("mt").innerHTML=Array(2).fill(["Samsung","Apple","Sony","LG","Xiaomi","Canon","Nikon","TCL","Hisense","Realme","Oppo","Vivo","GoPro","Fujifilm"].map(x=>`<span>${x}</span>`).join("")).join("");
+const wl="https://wa.me/"+WA+"?text="+encodeURIComponent("Hello Rifat Electronics, I would like to know about a product.");
+["heroWa","cWa"].forEach(id=>document.getElementById(id).href=wl);
+document.getElementById("msg").onsubmit=e=>{e.preventDefault();window.open("https://wa.me/"+WA+"?text="+encodeURIComponent("Hello, my name is "+m1.value+".\n"+m2.value),"_blank")};
+function count(){document.querySelectorAll(".stats b").forEach(el=>{const n=+el.dataset.n;let v=0;const st=n/40;const t=setInterval(()=>{v+=st;if(v>=n){v=n;clearInterval(t)}el.textContent=Math.round(v)},30)})}
+count();
+
+</script>
+</body>
+</html>
